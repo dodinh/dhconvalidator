@@ -85,6 +85,9 @@ public class Converter {
     byte[] convertedInputData = inputConverter.convert(sourceData, user);
     Paper paper = inputConverter.getPaper();
 
+    // set conversion language to paper language
+    toTeiConversionPath.setLanguage(paper.getSubmissionLanguage().getLanguageCode());
+
     String inputFilenameExtension = getFilenameExtension(inputFilename);
 
     String computedFilename =
@@ -134,11 +137,13 @@ public class Converter {
     progressListener.setProgress(Messages.getString("Converter.progress4"));
 
     // do the conversion to HTML via OxGarage
+    ConversionPath xhtmlConversionPath = ConversionPath.TEI_TO_XHTML;
+    xhtmlConversionPath.setLanguage(paper.getSubmissionLanguage().getLanguageCode());
     Document xHtmlDoc =
         oxGarageConversionClient.convertToDocument(
             conversionResultDocBuffer.toByteArray(),
-            ConversionPath.TEI_TO_XHTML,
-            ConversionPath.TEI_TO_XHTML.getDefaultProperties());
+            xhtmlConversionPath,
+            xhtmlConversionPath.getDefaultProperties());
 
     setImageSizes(xHtmlDoc);
     if (PropertyKey.html_address_generation.isTrue()) {
@@ -233,6 +238,7 @@ public class Converter {
     for (int i = 0; i < imgElements.size(); i++) {
       Element imgElement = (Element) imgElements.get(i);
       imgElement.addAttribute(new Attribute("width", "100%"));
+      imgElement.addAttribute(new Attribute("height", "100%"));
     }
   }
 
