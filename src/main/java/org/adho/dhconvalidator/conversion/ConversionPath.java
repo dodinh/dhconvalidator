@@ -153,6 +153,11 @@ public enum ConversionPath {
     return defaultFileExt;
   }
 
+  /** @param languageCode a 2-character language code */
+  public void setLanguage(String languageCode) {
+    properties.setProperty("oxgarage.lang", languageCode);
+  }
+
   /**
    * @param filename the name of the source file
    * @return the ConversionPath for the given source file

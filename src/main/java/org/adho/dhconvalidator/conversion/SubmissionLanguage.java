@@ -33,4 +33,8 @@ public enum SubmissionLanguage {
   public PropertyKey getTemplatePropertyKey() {
     return templatePropertyKey;
   }
+
+  public String getLanguageCode() {
+    return languageDescriptionKey.substring(languageDescriptionKey.length() -2);
+  }
 }
