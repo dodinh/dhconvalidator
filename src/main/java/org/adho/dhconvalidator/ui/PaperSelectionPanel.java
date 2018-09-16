@@ -21,6 +21,7 @@ import com.vaadin.ui.Table;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
@@ -79,10 +80,18 @@ public class PaperSelectionPanel extends CenterPanel implements View {
   private void initComponents() {
     Label info = new Label(Messages.getString("PaperSelectionPanel.hintMsg"), ContentMode.HTML);
 
+    // only add specified languages
+    List<SubmissionLanguage> availableLanguages = new ArrayList<SubmissionLanguage>();
+    for (SubmissionLanguage lang : SubmissionLanguage.values()) {
+      if (lang.getTemplatePropertyKey().getValue() != null) {
+        availableLanguages.add(lang);
+      }
+    }
+
     languages =
         new ComboBox(
             Messages.getString("PaperSelectionPanel.language"),
-            Arrays.asList(SubmissionLanguage.values()));
+            availableLanguages);
     languages.setNullSelectionAllowed(false);
     languages.setValue(
         SubmissionLanguage.valueOf(
