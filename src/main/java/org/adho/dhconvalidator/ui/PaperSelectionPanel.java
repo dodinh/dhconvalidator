@@ -79,10 +79,18 @@ public class PaperSelectionPanel extends CenterPanel implements View {
   private void initComponents() {
     Label info = new Label(Messages.getString("PaperSelectionPanel.hintMsg"), ContentMode.HTML);
 
+    // only add specified languages
+    List<SubmissionLanguage> availableLanguages = new ArrayList<SubmissionLanguage>();
+    for (SubmissionLanguage lang : SubmissionLanguage.values()) {
+      if (lang.getTemplatePropertyKey().getValue() != null) {
+        availableLanguages.add(lang);
+      }
+    }
+
     languages =
         new ComboBox(
             Messages.getString("PaperSelectionPanel.language"),
-            Arrays.asList(SubmissionLanguage.values()));
+            availableLanguages);
     languages.setNullSelectionAllowed(false);
     languages.setValue(
         SubmissionLanguage.valueOf(
